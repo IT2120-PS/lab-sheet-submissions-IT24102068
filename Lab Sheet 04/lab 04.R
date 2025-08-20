@@ -1,97 +1,31 @@
-setwd("C:\\Users\\it24102068\\Desktop\\Lab 04")
-
-data<-read.table("DATA 4.txt",header=TRUE,sep = "")
-fix(data)
-attach(data)
-
-boxplot(X1,main="Box plot for Team Attendence",outline=TRUE,outph=8,horizontal=TRUE)
-boxplot(X2,main="Box plot for Team Salary",outline=TRUE,outph=8,horizontal=TRUE)
-boxplot(X3,main="Box plot for Years",outline=TRUE,outph=8,horizontal=TRUE)
-
-hist(X1,ylab="Frequency",xlab="Team Attendence",main="Histrogram for Team Attendence")
-hist(X2,ylab="Frequency",xlab="Team Salary",main="Histrogram for Team Salary")
-hist(X3,ylab="Frequency",xlab="Years",main="Histrogram for Years")
-
-stem(X1)
-stem(X2)
-stem(X3)
+setwd("D:\\IT2120\\Lab Sessions\\Lab 04")
 
 
-mean(X1)
-mean(X2)
-mean(X3)
+branch_data <- read.table("Exercise.txt", header = TRUE, sep = ",")
+head(branch_data)
 
 
-median(X1)
-median(X2)
-median(X3)
+str(branch_data)
 
 
-sd(X1)
-sd(X2)
-sd(X3)
+boxplot(branch_data$Sales_X1,
+        main = "Boxplot of Sales",
+        ylab = "Sales")
 
 
-summary(X1)
-summary(X2)
-summary(X3)
 
-quantile(X1)
+fivenum(branch_data$Advertising_X2)
+IQR(branch_data$Advertising_X2)
 
-quantile(X1)[2]
 
-quantile(X1)[4]
 
-IQR(X1)
-IQR(X2)
-IQR(X3)
-
-get.mode<-function(y){
-  counts<-table(X3)
-  names(counts[counts == max(counts)])
+find_outliers <- function(x) {
+  Q1 <- quantile(x, 0.25)
+  Q3 <- quantile(x, 0.75)
+  IQR_value <- Q3 - Q1
+  lower <- Q1 - 1.5 * IQR_value
+  upper <- Q3 + 1.5 * IQR_value
+  outliers <- x[x < lower | x > upper]
+  return(outliers)
 }
-
-get.mode(X3)
-
-table(X3)
-
-max(counts)
-
-counts == max(counts)
-
-counts[counts == max(counts)]
-
-names(counts[counts == max(counts)])
-
-get.outliers<-function(z){
-  q1 <- quantile(z) [2]
-  q3 <- quantile(z) [4]
-  iqr <- q3 - q1
-  
-  ub <- q3 + 1.5*iqr
-  lb <- q1 - 1.5*iqr
-  
-  print(paste("Upper Bound = ", ub))
-  print(paste("Lower Bound = ", lb))
-  print(paste("Outliers:", paste(sort(z[z<lb | z>ub]), collapse = ",")))
-  
-  get.outliers(X1)
-  get.outliers(X2)
-  get.outliers(X3)
-  
-  get.outliers<-function(z){
-    q1 <- quantile(z) [2]
-    q3 <- quantile(z) [4]
-    iqr <- q3 - q1
-    
-    ub <- q3 + 1.5*iqr
-    lb <- q1 - 1.5*iqr
-    
-    print(paste("Upper Bound = ", ub))
-    print(paste("Lower Bound = ", lb))
-    
-    print(paste("Outliers:", paste(sort(z[z<lb | z>ub]), collapse = ",")))
-    
-  }
-  
-}
+find_outliers(branch_data$Years_X3)
